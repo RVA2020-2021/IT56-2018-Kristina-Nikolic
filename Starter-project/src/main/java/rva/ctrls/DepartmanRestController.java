@@ -30,6 +30,9 @@ public class DepartmanRestController {
 	
 	@Autowired
 	private DepartmanRepository departmanRepository;
+
+	@Autowired
+	private FakultetRepository fakultetRepository;
 	
 	@GetMapping("departman")
 	@ApiOperation(value = "Vraca kolekciju svih departmana iz baze podataka")
@@ -41,6 +44,12 @@ public class DepartmanRestController {
 	@ApiOperation(value = "Vraca departman iz baze podataka cija je id vrednost prosledjena kao path varijabla")
 	public Departman getDepartman(@PathVariable("id") Integer id) { 
 		return departmanRepository.getOne(id);
+	}
+
+	@GetMapping("departmanId/{id}")
+	public Collection<Departman> departmaniId(@PathVariable("id") Integer id) {
+		Fakultet f = fakultetRepository.getOne(id);
+		return departmanRepository.findByFakultet(f);
 	}
 	
 	@GetMapping("departmanNaziv/{naziv}")
